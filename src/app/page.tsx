@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 function Home() {
 	return (
-		<main className='bg-gray-400'>
+		<main>
 			<GraphElement />
 		</main>
 	);

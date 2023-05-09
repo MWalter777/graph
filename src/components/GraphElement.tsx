@@ -4,6 +4,8 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { findPath } from '@/helper/graph';
 import { useLayouts } from '@/hooks/useLayouts';
+import GraphForm from './GraphForm';
+import { Core } from 'cytoscape';
 
 setupCy();
 
@@ -167,32 +169,17 @@ const GraphElement = () => {
 
 	return (
 		<div className='flex flex-col px-4 gap-2'>
-			<div className='flex flex-col mt-4 gap-2'>
-				<button
-					className='bg-blue-500 px-4 py-1 rounded text-white font-semibold outline-none hover:bg-blue-800'
-					onClick={changeLayout}
-				>
-					Change layout
-				</button>
-				<form onSubmit={onSubmit} className='flex justify-between'>
-					<input
-						type='text'
-						placeholder='name'
-						name='name'
-						autoComplete='off'
-						id='name'
-						className='outline-none border-b border-gray-700 px-2 w-10/12'
-						onChange={onChange}
-						value={label}
-					/>
-					<button
-						className='bg-blue-500 px-4 py-1 rounded text-white font-semibold outline-none hover:bg-blue-800'
-						type='submit'
-					>
-						Add node
-					</button>
-				</form>
-			</div>
+			<GraphForm
+				changeLayout={changeLayout}
+				label={label}
+				onChange={onChange}
+				onSubmit={onSubmit}
+				findNode={findNode}
+				route={route}
+				selectSourceNode={selectSourceNode}
+				showData={showData}
+				data={data}
+			/>
 			<ErrorBoundary FallbackComponent={ErrorFallback}>
 				<div className='flex justify-center border p-4'>
 					<CytoscapeComponent
@@ -203,44 +190,11 @@ const GraphElement = () => {
 						}}
 						layout={layout}
 						stylesheet={stylesheet}
-						cy={(cy) => (cyRef.current = cy)}
+						cy={(cy: Core | undefined) => (cyRef.current = cy)}
 					/>
 				</div>
 			</ErrorBoundary>
-			<div className='flex flex-col my-4 gap-2'>
-				<span className='text-red-700'>{route.error}</span>
-				<form onSubmit={findNode} className='flex gap-2'>
-					<button
-						type='button'
-						className='bg-blue-500 px-4 py-1 rounded text-white font-semibold outline-none hover:bg-blue-800'
-						onClick={() => selectSourceNode('source')}
-					>
-						Select source node
-					</button>
-					<button
-						type='button'
-						className='bg-blue-500 px-4 py-1 rounded text-white font-semibold outline-none hover:bg-blue-800'
-						onClick={() => selectSourceNode('target')}
-					>
-						Select target node
-					</button>
-					<button
-						className='bg-blue-500 px-4 py-1 rounded text-white font-semibold outline-none hover:bg-blue-800'
-						type='submit'
-					>
-						find node
-					</button>
-				</form>
-			</div>
-			<div className='flex flex-col my-4 gap-2'>
-				<button
-					className='bg-blue-500 px-4 py-1 rounded text-white font-semibold outline-none hover:bg-blue-800'
-					onClick={showData}
-				>
-					Show data
-				</button>
-				<pre>{JSON.stringify(data, null, 2)}</pre>
-			</div>
+			<pre>{JSON.stringify(data, null, 2)}</pre>
 		</div>
 	);
 };
