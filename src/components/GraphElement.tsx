@@ -35,7 +35,11 @@ type Elements = {
 	}[];
 };
 
-const GraphElement = () => {
+type Props = {
+	n: number;
+};
+
+const GraphElement = ({ n }: Props) => {
 	const [label, setLabel] = useState('');
 	const [data, setData] = useState<any>({});
 	const [route, setRoute] = useState<{
@@ -47,7 +51,7 @@ const GraphElement = () => {
 	});
 	const [selected, setSelected] = useState({ source: '', target: '' });
 	const { elements, layout, stylesheet, cyRef, changeLayout, addNode } =
-		useLayouts();
+		useLayouts(n);
 	const onChange = (e: { target: { value: string } }) => {
 		setLabel(e.target.value);
 	};
@@ -178,7 +182,6 @@ const GraphElement = () => {
 				route={route}
 				selectSourceNode={selectSourceNode}
 				showData={showData}
-				data={data}
 			/>
 			<ErrorBoundary FallbackComponent={ErrorFallback}>
 				<div className='flex justify-center border p-4'>

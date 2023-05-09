@@ -2,11 +2,14 @@
 
 import GraphElement from '@/components/GraphElement';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 
 function Home() {
+	const searchParams = useSearchParams();
+
 	return (
 		<main>
-			<GraphElement />
+			<GraphElement n={+Array.from(searchParams.values())[0] || 16} />
 		</main>
 	);
 }

@@ -63,7 +63,7 @@ function getDefaultStylesheet(): Stylesheet[] {
 	];
 }
 
-export const useLayouts = (nodes = 8) => {
+export const useLayouts = (nodes = 32) => {
 	const cyRef = useRef<cytoscape.Core | undefined>();
 	const [elements, setElements] = useState(() => generateGraph(nodes));
 	const [layout, setLayout] = useState(layouts.klay);
